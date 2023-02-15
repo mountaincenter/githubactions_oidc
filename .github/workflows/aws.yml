@@ -1,0 +1,21 @@
+name: awscli
+
+on:
+  push:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  get-caller-identity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials from test
+        uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          aws-region: ap-northeast-1
+          role-to-assume: arn:aws:iam::384657981262:role/oidc-example-role
