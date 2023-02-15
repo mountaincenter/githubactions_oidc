@@ -19,3 +19,6 @@ jobs:
         with:
           aws-region: ap-northeast-1
           role-to-assume: arn:aws:iam::384657981262:role/oidc-example-role
+
+      - name: AWS AccoutID
+        run: aws sts get-caller-identity
