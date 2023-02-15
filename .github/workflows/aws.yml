@@ -20,5 +20,29 @@ jobs:
           aws-region: ap-northeast-1
           role-to-assume: arn:aws:iam::384657981262:role/oidc-example-role
 
-      - name: AWS AccoutID
-        run: aws sts get-caller-identity
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.1.7
+
+      - name: Terraform fmt
+        id: fmt
+        working-directory: .
+        run: terraform fmt -check
+        continue-on-error: true
+
+      - name: Terraform Init
+        id : init
+        working-directory: .
+        run: terraform init
+
+      - name: Terraform Plan
+        id: plan
+        working-directory: .
+        run: terraform plan -no-color
+        continue-on-error: true
+
+      - name: Terraform Apply
+        id: apply
+        working-directory: .
+        run: terraform apply -auto-approve
