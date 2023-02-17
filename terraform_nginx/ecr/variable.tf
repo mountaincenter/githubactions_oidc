@@ -1,3 +1,3 @@
 variable "repository_name" {
-  default = "tf-ngixn"
+  default = "tf-nginx"
 }
