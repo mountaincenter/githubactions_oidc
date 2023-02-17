@@ -11,8 +11,8 @@ ENV APP_PATH /myapp
 RUN mkdir $APP_PATH
 WORKDIR $APP_PATH
 
-COPY Gemfile $APP_PATH/Gemfile
-COPY Gemfile.lock $APP_PATH/Gemfile.lock
+COPY ./backend/Gemfile $APP_PATH/Gemfile
+COPY ./backend/Gemfile.lock $APP_PATH/Gemfile.lock
 RUN bundle install
 
 COPY . $APP_PATH
