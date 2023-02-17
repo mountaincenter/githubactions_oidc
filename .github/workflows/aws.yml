@@ -34,24 +34,24 @@ jobs:
 
       - name: Terraform fmt
         id: fmt
-        working-directory: .
+        working-directory: ./terraform
         run: terraform fmt -check
         continue-on-error: true
 
       - name: Terraform Init
         id : init
-        working-directory: .
+        working-directory: ./terraform
         run: terraform init
 
       - name: Terraform Plan
         id: plan
-        working-directory: .
+        working-directory: ./terraform
         run: terraform plan -no-color
         continue-on-error: true
 
       - name: Terraform Apply
         id: apply
-        working-directory: .
+        working-directory: ./terraform
         run: terraform apply -auto-approve
 
       - name: Set up Docker Buildx
@@ -73,10 +73,11 @@ jobs:
       - uses: docker/build-push-action@v4
         with:
           push: true
+          file: ./backend/Dockerfile_prd
           tags: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
 
       - uses: docker/build-push-action@v4
         with:
           push: true
-          file: Dockerfile_nginx
+          file: ./backend/Dockerfile_nginx
           tags: ${{ env.ECR_REGISTRY }}/nginx:latest
