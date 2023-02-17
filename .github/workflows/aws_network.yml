@@ -3,7 +3,7 @@ name: network
 on:
   push:
     branches:
-      # - main
+      - main
       - 'support/**'
 
 permissions:
