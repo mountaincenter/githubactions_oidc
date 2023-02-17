@@ -79,5 +79,5 @@ jobs:
       - uses: docker/build-push-action@v4
         with:
           push: true
-          file: ./backend/Dockerfile_nginx
+          file: ./backend/nginx/Dockerfile
           tags: ${{ env.ECR_REGISTRY }}/nginx:latest
