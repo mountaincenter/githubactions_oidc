@@ -1,0 +1,53 @@
+name: network
+
+on:
+  push:
+    branches:
+      - main
+      - 'support/**'
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_ROLE_ARN: arn:aws:iam::384657981262:role/GithubActionsTestByOIDC
+jobs:
+  get-caller-identity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials from test
+        uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          aws-region: ap-northeast-1
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.1.7
+
+      - name: Terraform fmt
+        id: fmt
+        working-directory: ./terraform
+        run: terraform fmt -check
+        continue-on-error: true
+
+      - name: Terraform Init
+        id : init
+        working-directory: ./terraform
+        run: terraform init
+
+      - name: Terraform Plan
+        id: plan
+        working-directory: ./terraform
+        run: terraform plan -no-color
+        continue-on-error: true
+
+      - name: Terraform Apply
+        id: apply
+        working-directory: ./terraform
+        run: terraform apply -auto-approve

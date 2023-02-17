@@ -48,5 +48,26 @@ services:
     working_dir: /terraform
     entrypoint: ash
     tty: true
+  terraform_network:
+    image: hashicorp/terraform:1.2.3
+    volumes:
+      - ./terraform_network:/terraform
+    working_dir: /terraform
+    entrypoint: ash
+    tty: true
+  terraform_nginx:
+    image: hashicorp/terraform:1.2.3
+    volumes:
+      - ./terraform_nginx:/terraform
+    working_dir: /terraform
+    entrypoint: ash
+    tty: true
+  nginx:
+    build:
+      context: ./nginx/
+      dockerfile: Dockerfile
+    container_name: nginx_container
+    ports:
+      - "80:80"
 volumes:
   mysql-data:
